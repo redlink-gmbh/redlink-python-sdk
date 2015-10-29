@@ -16,6 +16,7 @@ import logging
 from rdflib.graph import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, POSTDIRECTLY
 
+from . import __agent__
 from .client import RedlinkClient
 from .format import from_mimetype, Format
 
@@ -80,8 +81,7 @@ class RedlinkData(RedlinkClient):
         return self._sparql_query(dataset, query, Format.TURTLE.name)
 
     def sparql_update(self, query, dataset):
-        path = "/%s/%s/%s/%s" % (self.path, dataset, self.sparql_path, self.sparql_update_path)
-        return self._sparql_query(path, query, Format.JSON.name)
+        return self._sparql_query(dataset, query, Format.JSON.name)
 
     def _sparql_query(self, dataset, query, format=JSON):
         sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path, dataset, self.sparql_path, self.sparql_select_path)
@@ -90,6 +90,7 @@ class RedlinkData(RedlinkClient):
         print sparql_endpoint_update
         sparql = SPARQLWrapper(sparql_endpoint_select, sparql_endpoint_update)
         sparql.addCustomParameter(self.param_key, self.key)
+        sparql.agent = __agent__
         sparql.setMethod(POST)
         sparql.setRequestMethod(POSTDIRECTLY)
         sparql.setReturnFormat(format)
