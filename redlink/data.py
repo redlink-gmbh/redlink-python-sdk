@@ -16,8 +16,7 @@ from .client import RedlinkClient
 
 class RedlinkData(RedlinkClient):
 
+    path = "data"
+
     def __init__(self, key):
         super(RedlinkData, self).__init__(key)
-
-    def enhance(self, content):
-        pass

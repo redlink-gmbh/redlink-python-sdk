@@ -24,4 +24,11 @@ __contact__ = "support@redlink.io"
 __date__    = "2015-10-28"
 __agent__   = "RedlinkPythonSDK/%s" % __version__
 
-from redlink import Redlink
+from .analysis import RedlinkAnalysis
+from .data import RedlinkData
+
+def create_analysis_client(key):
+    return RedlinkAnalysis(key)
+
+def create_data_client(key):
+    return RedlinkData(key)

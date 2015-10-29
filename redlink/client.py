@@ -21,7 +21,9 @@ class RedlinkClient(object):
 
     endpoint = "https://api.redlink.io"
     datahub = "http://data.redlink.io"
-    key_param = "key"
+    param_key = "key"
+    param_in = "in"
+    param_out = "out"
 
     def __init__(self, key):
         self.key = key
@@ -31,12 +33,17 @@ class RedlinkClient(object):
         status = self.get_status()
         if not(status and status["accessible"]):
             raise ValueError("invalid key")
+        else:
+            self.status = status
 
-    def _build_url(self, endpoint=""):
+    def _build_url(self, endpoint="", params={}):
         if len(endpoint) > 0 and not endpoint.startswith("/"):
             endpoint = "/%" % endpoint
 
-        return "%s/%s%s?%s=%s" % (self.endpoint, self.version, endpoint, self.key_param, self.key)
+        url = "%s/%s%s?%s=%s" % (self.endpoint, self.version, endpoint, self.param_key, self.key)
+        for k, v in params.iteritems():
+            url += "&%s=%s" % (k, v)
+        return url
 
     def _get_api_version(self):
         versions = __version__.split(".")
@@ -50,6 +57,14 @@ class RedlinkClient(object):
             return json.loads(response.text)
 
     def _get(self, resource, accept=None):
-        headers = { "User-Agent" : self.user_agent }
+        headers = {"User-Agent": self.user_agent}
         if accept: headers["Accept"] = accept
         return requests.get(resource, headers=headers)
+
+    def _post(self, resource, payload, contentType, accept):
+        headers = {
+            "User-Agent": self.user_agent,
+            "Content-Type": contentType,
+            "Accept": accept
+        }
+        return requests.post(resource, data=payload, headers=headers)
