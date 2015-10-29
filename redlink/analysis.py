@@ -12,16 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-Redlink Python SDK: C{https://github.com/redlink-gmbh/redlink-python-sdk}
-"""
+from .client import RedlinkClient
 
-__version__ = "1.0.0.dev0"
-__authors__ = "Sergio Fernández"
-__license__ = "Apache License, Version 2.0"
-__url__     = "https://github.com/redlink-gmbh/redlink-python-sdk"
-__contact__ = "support@redlink.io"
-__date__    = "2015-10-28"
-__agent__   = "RedlinkPythonSDK/%s" % __version__
+class RedlinkAnalysis(RedlinkClient):
 
-from redlink import Redlink
+    def __init__(self, key):
+        super(RedlinkAnalysis, self).__init__(key)
+
+    def enhance(self, content):
+        pass
