@@ -58,13 +58,14 @@ class RedlinkClient(object):
 
     def _get(self, resource, accept=None):
         headers = {"User-Agent": self.user_agent}
-        if accept: headers["Accept"] = accept
+        if accept:
+            headers["Accept"] = accept
         return requests.get(resource, headers=headers)
 
-    def _post(self, resource, payload, contentType, accept):
-        headers = {
-            "User-Agent": self.user_agent,
-            "Content-Type": contentType,
-            "Accept": accept
-        }
+    def _post(self, resource, payload=None, contentType=None, accept=None):
+        headers = {"User-Agent": self.user_agent}
+        if contentType:
+            headers["Content-Type"] = contentType
+        if accept:
+            headers["Accept"] = accept
         return requests.post(resource, data=payload, headers=headers)
