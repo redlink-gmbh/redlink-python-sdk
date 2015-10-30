@@ -22,18 +22,32 @@ class FormatDef:
     def __str__(self):
         return "%s[%s]" % (self.name, self.mimetype)
 
-    def __cmp__(self, o):
-        if o == None:
+    def __cmp__(self, other):
+        if other is None:
             return -1
-        elif isinstance(o, FormatDef):
-            return cmp(self.mimetype, o.mimetype)
-        elif "/" in o:
-            if ";" in o:
-                return cmp(self.mimetype, o.split(";")[0])
+        elif isinstance(other, FormatDef):
+            return -1 * int(not self.mimetype == other.mimetype)
+        elif "/" in other:
+            if ";" in other:
+                return -1 * int(not self.mimetype == other.split(";")[0])
             else:
-                return cmp(self.mimetype, o)
+                return -1 * int(not self.mimetype == other)
         else:
-            return cmp(self.name, o)
+            return -1 * int(not self.name == other)
+
+    def __eq__(self, other):
+        if other is None:
+            return -1
+        elif isinstance(other, FormatDef):
+            return self.mimetype == other.mimetype
+        elif "/" in other:
+            if ";" in other:
+                return self.mimetype == other.split(";")[0]
+            else:
+                return self.mimetype == other
+        else:
+            return self.name == other
+
 
 class Format:
 
