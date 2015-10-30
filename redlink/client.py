@@ -41,7 +41,7 @@ class RedlinkClient(object):
             endpoint = "/%" % endpoint
 
         url = "%s/%s%s?%s=%s" % (self.endpoint, self.version, endpoint, self.param_key, self.key)
-        for k, v in params.iteritems():
+        for k, v in params.items():
             url += "&%s=%s" % (k, v)
         return url
 

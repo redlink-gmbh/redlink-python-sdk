@@ -56,7 +56,7 @@ class Format:
 
 
 def from_mimetype(mimetype):
-    for name, format in Format.__dict__.iteritems():
+    for name, format in Format.__dict__.items():
         if isinstance(format, FormatDef):
             if format == mimetype:
                 return format
