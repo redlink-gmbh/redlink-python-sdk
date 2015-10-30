@@ -8,6 +8,7 @@ developing against our API.
 The SDKs are provided for a limited set of languages; so if it does not covers your particular, 
 needs, please contact us for further information.
 
+[![Build Status](https://secure.travis-ci.org/redlink-gmbh/redlink-python-sdk.svg?branch=master)](https://travis-ci.org/redlink-gmbh/redlink-python-sdk)
 [![License](http://img.shields.io/:license-apache-blue.svg)][ASL2]
 
 Further details at [dev.redlink.io][dev].
