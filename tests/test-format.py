@@ -14,9 +14,9 @@
 
 from nose.tools import assert_equals
 
-import redlink
+from redlink.format import Format, from_mimetype
 
 def test_mimetype_lookup():
-    assert_equals(redlink.format.Format.TURTLE, redlink.format.from_mimetype("text/turtle"))
-    assert_equals(redlink.format.Format.TURTLE, redlink.format.from_mimetype("text/turtle;charset=UTF-8"))
-    assert_equals(redlink.format.Format.JSON, redlink.format.from_mimetype("application/json;charset=UTF-8"))
+    assert_equals(Format.TURTLE, from_mimetype("text/turtle"))
+    assert_equals(Format.TURTLE, from_mimetype("text/turtle;charset=UTF-8"))
+    assert_equals(Format.JSON, from_mimetype("application/json;charset=UTF-8"))
