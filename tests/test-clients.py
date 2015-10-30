@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from nose.tools import assert_true, raises, with_setup
-from utils import with_setup_args
+from .utils import with_setup_args
 import os
 import redlink
 
