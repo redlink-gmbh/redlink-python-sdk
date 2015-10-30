@@ -1,16 +1,16 @@
 language: python
-
 python:
-  - "2.6"
-  - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
-  - "pypy"
-
+- '2.6'
+- '2.7'
+- '3.2'
+- '3.3'
+- '3.4'
+- pypy
 install:
-  - pip install .
-  - pip install -r requirements.txt
-
+- pip install --upgrade pip
+- pip install .
+- pip install -r requirements.txt
 script: nosetests tests
-
+before_install:
+- openssl aes-256-cbc -K $encrypted_8186fb7f94a3_key -iv $encrypted_8186fb7f94a3_iv
+  -in api.key.enc -out tests/api.key -d

@@ -14,7 +14,7 @@
 
 from setuptools import setup
 
-import .redlink
+import redlink
 version = redlink.__version__
 
 from pip.req import parse_requirements
