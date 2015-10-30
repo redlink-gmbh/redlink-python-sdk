@@ -86,8 +86,6 @@ class RedlinkData(RedlinkClient):
     def _sparql_query(self, dataset, query, format=JSON):
         sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path, dataset, self.sparql_path, self.sparql_select_path)
         sparql_endpoint_update = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path, dataset, self.sparql_path, self.sparql_update_path)
-        print sparql_endpoint_select
-        print sparql_endpoint_update
         sparql = SPARQLWrapper(sparql_endpoint_select, sparql_endpoint_update)
         sparql.addCustomParameter(self.param_key, self.key)
         sparql.agent = __agent__
@@ -95,5 +93,4 @@ class RedlinkData(RedlinkClient):
         sparql.setRequestMethod(POSTDIRECTLY)
         sparql.setReturnFormat(format)
         sparql.setQuery(query)
-        print sparql.isSparqlUpdateRequest()
         return sparql.query().convert()
