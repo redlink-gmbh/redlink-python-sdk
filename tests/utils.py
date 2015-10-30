@@ -13,7 +13,8 @@
 # limitations under the License.
 
 import os
-
+import string
+import random
 
 def setup_func():
     key = read_test_key()
@@ -72,3 +73,7 @@ def with_setup_args(setup, teardown=None):
         return test_wrapped
 
     return decorate
+
+
+def random_string(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
