@@ -12,6 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
+
+def setup_func():
+    key = read_test_key()
+    return [key], {}
+
+
+def read_test_key():
+    f = open(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "api.key")), "r")
+    try:
+        return f.read().strip()
+    finally:
+        f.close()
+
+
 def with_setup_args(setup, teardown=None):
     """Decorator to add setup and/or teardown methods to a test function::
       @with_setup_args(setup, teardown)
@@ -24,6 +40,7 @@ def with_setup_args(setup, teardown=None):
 
     From C{https://gist.github.com/garyvdm/392ae20c673c7ee58d76}
     """
+
     def decorate(func):
         args = []
         kwargs = {}
@@ -39,6 +56,7 @@ def with_setup_args(setup, teardown=None):
             kwargs.update(k)
             if hasattr(func, 'setup'):
                 func.setup()
+
         test_wrapped.setup = setup_wrapped
 
         if teardown:
@@ -52,4 +70,5 @@ def with_setup_args(setup, teardown=None):
             if hasattr(func, 'teardown'):
                 test_wrapped.teardown = func.teardown()
         return test_wrapped
+
     return decorate

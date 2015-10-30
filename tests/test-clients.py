@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from nose.tools import assert_true, raises, with_setup
-from .utils import with_setup_args
-import os
+from nose.tools import assert_true, raises
+from .utils import setup_func, with_setup_args
+
 import redlink
 
 
@@ -38,26 +38,13 @@ def test_empty_key_data_client():
     redlink.create_data_client("")
 
 
-def setup():
-    key = _read_test_key()
-    return [key], {}
-
-
-def _read_test_key():
-    f = open(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "api.key")), "r")
-    try:
-        return f.read().strip()
-    finally:
-        f.close()
-
-
-@with_setup_args(setup)
+@with_setup_args(setup_func)
 def test_analysis_client_status(key):
     analysis = redlink.create_analysis_client(key)
     assert_true(analysis.status["accessible"])
 
 
-@with_setup_args(setup)
+@with_setup_args(setup_func)
 def test_analysis_client_status(key):
     data = redlink.create_data_client(key)
     assert_true(data.status["accessible"])
