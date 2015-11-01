@@ -15,6 +15,7 @@
 
 from . import __version__, __agent__
 import requests
+from urllib import quote_plus
 import json
 
 
@@ -43,7 +44,8 @@ class RedlinkClient(object):
 
         url = "%s/%s%s?%s=%s" % (self.endpoint, self.version, endpoint, self.param_key, self.key)
         for k, v in params.items():
-            url += "&%s=%s" % (k, v)
+            #TODO: create a wrapper for send back both uri and params to use later in responses' methods
+            url += "&%s=%s" % (k, quote_plus(v))
         return url
 
     def _get_api_version(self):

@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 from nose.tools import assert_true, assert_equals
 from .utils import setup_func, with_setup_args, random_string
 
@@ -140,7 +141,7 @@ def test_delete_resource(key):
 
 
 @with_setup_args(setup_func)
-def test_delete_resource_after_import_it(key):
+def test_delete_resource_after_import(key):
     dataset = "test"
     data = redlink.create_data_client(key)
     assert_true(data.status["accessible"])
@@ -162,3 +163,20 @@ def test_delete_resource_after_import_it(key):
     assert_equals(1, len(results["results"]["bindings"]))
     size_before = int(results["results"]["bindings"][0]["count"]["value"])
     assert_equals(0, size_before)
+
+
+@with_setup_args(setup_func)
+def test_ldpath(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    f = open(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "test.rdf")), "r")
+    assert_true(data.import_dataset(f, Format.RDFXML.mimetype, dataset, True))
+
+    uri = "http://example.org/wikier"
+    program = "name = foaf:name[@en] :: xsd:string ;"
+    results = data.ldpath(uri, program, dataset)
+    print results
+    assert_equals(1, len(results))

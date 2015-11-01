@@ -15,17 +15,19 @@
 import logging
 from rdflib.graph import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, POSTDIRECTLY
+import json
 
 from . import __agent__
 from .client import RedlinkClient
 from .format import from_mimetype, Format
+
 
 class RedlinkData(RedlinkClient):
 
     path = "data"
     release_path = "release"
     resource_path = "resource"
-    param_uri = " uri"
+    param_uri = "uri"
     sparql_path = "sparql"
     sparql_select_path = "select"
     sparql_update_path = "update"
@@ -69,8 +71,8 @@ class RedlinkData(RedlinkClient):
         response = self._delete(resource)
         return 200 <= response.status_code < 300
 
-    def import_resource(self, data, mimetype, resource, dataset, clean_before=False):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: resource})
+    def import_resource(self, data, mimetype, uri, dataset, clean_before=False):
+        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
 
         rdf_format = from_mimetype(mimetype)
         if not rdf_format:
@@ -81,8 +83,8 @@ class RedlinkData(RedlinkClient):
         response = method(resource, payload, contentType=rdf_format.mimetype)
         return 200 <= response.status_code < 300
 
-    def export_resource(self, resource, dataset):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: resource})
+    def export_resource(self, uri, dataset):
+        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
         rdf_format = Format.TURTLE
         response = self._get(resource, accept=rdf_format.mimetype)
         contentType = from_mimetype(response.headers["Content-Type"])
@@ -94,8 +96,8 @@ class RedlinkData(RedlinkClient):
             logging.warn("Handler not found for parsing %s as RDF, so returning raw text response..." % contentType.mimetype)
             return response.text
 
-    def delete_resource(self, resource, dataset):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: resource})
+    def delete_resource(self, uri, dataset):
+        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
         response = self._delete(resource)
         return 200 <= response.status_code < 300
 
@@ -133,3 +135,19 @@ class RedlinkData(RedlinkClient):
                 raise ValueError("unsupported type %s as data payload" % type(data))
         else:
             return None
+
+    def _build_dataset_base_uri(self, dataset):
+        return "%s/%s/%s/" % (self.datahub, self.status["owner"], dataset)
+
+    def ldpath(self, uri, program, dataset):
+        resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.ldpath_path), {self.param_uri: uri})
+        response = self._post(resource, program, accept=Format.JSON.mimetype)
+        if 200 <= response.status_code < 300:
+            contentType = from_mimetype(response.headers["Content-Type"])
+            if Format.JSON == contentType:
+                return json.loads(response.text)
+            else:
+                logging.warn("Content type should be 'application/json' but was %s" % response.headers["Content-Type"])
+                return response.text
+        else:
+            raise RuntimeError("LDPath program evaluation returned %d: %s", response.status_code, response.reason)
