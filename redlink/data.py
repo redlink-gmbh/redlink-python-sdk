@@ -63,7 +63,7 @@ class RedlinkData(RedlinkClient):
             g.parse(data=response.text, format=contentType.rdflibMapping)
             return g
         else:
-            logging.warn("Handler not found for parsing %s as RDF, so returning raw text response..." % contentType.mimetype)
+            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % contentType.mimetype)
             return response.text
 
     def clean_dataset(self, dataset):
@@ -72,11 +72,11 @@ class RedlinkData(RedlinkClient):
         return 200 <= response.status_code < 300
 
     def import_resource(self, data, mimetype, uri, dataset, clean_before=False):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
+        resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
 
         rdf_format = from_mimetype(mimetype)
         if not rdf_format:
-            rdf_format = Format.TURT
+            rdf_format = Format.TURTLE
 
         payload = self._get_payload_from_data(data, rdf_format)
         method = self._put if clean_before else self._post
@@ -84,7 +84,7 @@ class RedlinkData(RedlinkClient):
         return 200 <= response.status_code < 300
 
     def export_resource(self, uri, dataset):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
+        resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
         rdf_format = Format.TURTLE
         response = self._get(resource, accept=rdf_format.mimetype)
         contentType = from_mimetype(response.headers["Content-Type"])
@@ -93,11 +93,11 @@ class RedlinkData(RedlinkClient):
             g.parse(data=response.text, format=contentType.rdflibMapping)
             return g
         else:
-            logging.warn("Handler not found for parsing %s as RDF, so returning raw text response..." % contentType.mimetype)
+            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % contentType.mimetype)
             return response.text
 
     def delete_resource(self, uri, dataset):
-        resource = self._build_url("/%s/%s" % (self.path, dataset), {self.param_uri: uri})
+        resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
         response = self._delete(resource)
         return 200 <= response.status_code < 300
 
@@ -111,8 +111,10 @@ class RedlinkData(RedlinkClient):
         return self._sparql_query(dataset, query, Format.JSON.name)
 
     def _sparql_query(self, dataset, query, format=JSON):
-        sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path, dataset, self.sparql_path, self.sparql_select_path)
-        sparql_endpoint_update = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path, dataset, self.sparql_path, self.sparql_update_path)
+        sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
+                                                        dataset, self.sparql_path, self.sparql_select_path)
+        sparql_endpoint_update = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
+                                                        dataset, self.sparql_path, self.sparql_update_path)
         sparql = SPARQLWrapper(sparql_endpoint_select, sparql_endpoint_update)
         sparql.addCustomParameter(self.param_key, self.key)
         sparql.agent = __agent__
