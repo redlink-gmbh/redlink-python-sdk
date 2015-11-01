@@ -16,6 +16,7 @@ import logging
 from rdflib.graph import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, POSTDIRECTLY
 import json
+from io import IOBase
 
 from . import __agent__
 from .client import RedlinkClient
@@ -127,12 +128,16 @@ class RedlinkData(RedlinkClient):
     def _get_payload_from_data(self, data, rdf_format):
         # TODO: do this in a more pythonic way
         if (data):
-            if type(data) == str:
+            if isinstance(data, str):
                 return data
-            elif type(data) == file:
-                return data.read()
-            elif type(data) == Graph:
+            elif isinstance(data, Graph):
                 return data.serialize(format=rdf_format.rdflibMapping)
+            elif hasattr(data, 'read'):
+                raw = data.read()
+                try:
+                    return raw.encode('UTF-8')
+                except UnicodeDecodeError:
+                    return raw
             else:
                 raise ValueError("unsupported type %s as data payload" % type(data))
         else:
