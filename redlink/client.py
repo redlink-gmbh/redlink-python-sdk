@@ -78,3 +78,6 @@ class RedlinkClient(object):
         if accept:
             headers["Accept"] = accept
         return requests.put(resource, data=payload, headers=headers)
+
+    def _delete(self, resource):
+        return requests.delete(resource)

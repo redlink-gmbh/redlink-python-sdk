@@ -75,3 +75,14 @@ def test_clean_before_insert(key):
         "<http://example.org/foo> <http://example.org/label> 'foo' .", Format.NT.mimetype, dataset, True))
     graph = data.export_dataset(dataset)
     assert_equals(1, len(graph))
+
+@with_setup_args(setup_func)
+def test_delete(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    assert_true(data.clean_dataset(dataset))
+    graph = data.export_dataset(dataset)
+    assert_equals(0, len(graph))

@@ -75,6 +75,11 @@ class RedlinkData(RedlinkClient):
             logging.warn("Handler not found for parsing %s as RDF, so returning raw text response..." % contentType.mimetype)
             return response.text
 
+    def clean_dataset(self, dataset):
+        resource = self._build_url("/%s/%s" % (self.path, dataset))
+        response = self._delete(resource)
+        return 200 <= response.status_code < 300
+
     def sparql_tuple_query(self, query, dataset):
         return self._sparql_query(dataset, query, Format.JSON.name)
 
