@@ -65,7 +65,7 @@ def test_size_sparql_and_export(key):
 
 
 @with_setup_args(setup_func)
-def test_clean_before_insert(key):
+def test_clean_before_import(key):
     dataset = "test"
     data = redlink.create_data_client(key)
     assert_true(data.status["accessible"])
@@ -76,8 +76,9 @@ def test_clean_before_insert(key):
     graph = data.export_dataset(dataset)
     assert_equals(1, len(graph))
 
+
 @with_setup_args(setup_func)
-def test_delete(key):
+def test_clean_dataset(key):
     dataset = "test"
     data = redlink.create_data_client(key)
     assert_true(data.status["accessible"])
@@ -86,3 +87,78 @@ def test_delete(key):
     assert_true(data.clean_dataset(dataset))
     graph = data.export_dataset(dataset)
     assert_equals(0, len(graph))
+
+
+@with_setup_args(setup_func)
+def test_import_resource(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    rnd = random_string()
+    rnd_resource = "http://example.org/%s" % rnd
+    rnd_triple = "<%s> <http://example.org/label> '%s' ." % (rnd_resource, rnd)
+    assert_true(data.import_resource(rnd_triple, Format.NT.mimetype, rnd_resource, dataset))
+
+    graph = data.export_dataset(dataset)
+    assert_true(len(graph) >= 1)
+
+
+@with_setup_args(setup_func)
+def test_clean_before_import_resource(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    rnd = random_string()
+    rnd_resource = "http://example.org/%s" % rnd
+    rnd_triple = "<%s> <http://example.org/label> '%s' ." % (rnd_resource, rnd)
+    assert_true(data.import_resource(rnd_triple, Format.NT.mimetype, rnd_resource, dataset, True))
+
+    graph = data.export_dataset(dataset)
+    assert_equals(1, len(graph))
+
+
+@with_setup_args(setup_func)
+def test_delete_resource(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    rnd = random_string()
+    rnd_resource = "http://example.org/%s" % rnd
+
+    assert_true(data.delete_resource(rnd_resource, dataset))
+
+    results = data.sparql_tuple_query("select (count(*) as ?count) where { <%s> ?p ?o }" % rnd_resource, dataset)
+    assert_equals(1, len(results["results"]["bindings"]))
+    size_before = int(results["results"]["bindings"][0]["count"]["value"])
+    assert_equals(0, size_before)
+
+
+@with_setup_args(setup_func)
+def test_delete_resource_after_import_it(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    rnd = random_string()
+    rnd_resource = "http://example.org/%s" % rnd
+    rnd_triple = "<%s> <http://example.org/label> '%s' ." % (rnd_resource, rnd)
+    assert_true(data.import_resource(rnd_triple, Format.NT.mimetype, rnd_resource, dataset))
+
+    results = data.sparql_tuple_query("select (count(*) as ?count) where { <%s> ?p ?o }" % rnd_resource, dataset)
+    assert_equals(1, len(results["results"]["bindings"]))
+    size_before = int(results["results"]["bindings"][0]["count"]["value"])
+    assert_equals(1, size_before)
+
+    assert_true(data.delete_resource(rnd_resource, dataset))
+
+    results = data.sparql_tuple_query("select (count(*) as ?count) where { <%s> ?p ?o }" % rnd_resource, dataset)
+    assert_equals(1, len(results["results"]["bindings"]))
+    size_before = int(results["results"]["bindings"][0]["count"]["value"])
+    assert_equals(0, size_before)
