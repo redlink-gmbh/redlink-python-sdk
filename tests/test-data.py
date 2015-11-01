@@ -180,5 +180,5 @@ def test_ldpath(key):
     uri = "http://example.org/wikier"
     program = "name = foaf:name[@en] :: xsd:string ;"
     results = data.ldpath(uri, program, dataset)
-    print results
+    print(results)
     assert_equals(1, len(results))

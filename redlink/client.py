@@ -15,8 +15,12 @@
 
 from . import __version__, __agent__
 import requests
-from urllib import quote_plus
 import json
+
+try:
+    from urllib import quote_plus
+except ImportError:
+    from urllib.parse import quote_plus
 
 
 class RedlinkClient(object):
