@@ -107,7 +107,7 @@ def test_import_resource(key):
 
 
 @with_setup_args(setup_func)
-def test_clean_before_import_resource(key):
+def test_clean_import_resource(key):
     dataset = "test"
     data = redlink.create_data_client(key)
     assert_true(data.status["accessible"])
@@ -118,8 +118,10 @@ def test_clean_before_import_resource(key):
     rnd_triple = "<%s> <http://example.org/label> '%s' ." % (rnd_resource, rnd)
     assert_true(data.import_resource(rnd_triple, Format.NT.mimetype, rnd_resource, dataset, True))
 
-    graph = data.export_dataset(dataset)
-    assert_equals(1, len(graph))
+    results = data.sparql_tuple_query("select (count(*) as ?count) where { <%s> ?p ?o }" % rnd_resource, dataset)
+    assert_equals(1, len(results["results"]["bindings"]))
+    size_before = int(results["results"]["bindings"][0]["count"]["value"])
+    assert_equals(1, size_before)
 
 
 @with_setup_args(setup_func)
