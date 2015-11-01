@@ -38,7 +38,7 @@ class RedlinkData(RedlinkClient):
         response = self._post(resource, accept="application/json")
         return 200 <= response.status_code < 300
 
-    def import_dataset(self, data, mimetype, dataset):
+    def import_dataset(self, data, mimetype, dataset, clean_before=False):
         resource = self._build_url("/%s/%s" % (self.path, dataset))
 
         # TODO: do this in a more pythonic way
@@ -58,7 +58,8 @@ class RedlinkData(RedlinkClient):
         else:
             payload = None
 
-        response = self._post(resource, payload, contentType=rdf_format.mimetype)
+        method = self._put if clean_before else self._post
+        response = method(resource, payload, contentType=rdf_format.mimetype)
         return 200 <= response.status_code < 300
 
     def export_dataset(self, dataset):

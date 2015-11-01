@@ -17,6 +17,7 @@ from . import __version__, __agent__
 import requests
 import json
 
+
 class RedlinkClient(object):
 
     endpoint = "https://api.redlink.io"
@@ -31,7 +32,7 @@ class RedlinkClient(object):
         self.user_agent = __agent__
 
         status = self.get_status()
-        if not(status and status["accessible"]):
+        if not (status and status["accessible"]):
             raise ValueError("invalid key")
         else:
             self.status = status
@@ -69,3 +70,11 @@ class RedlinkClient(object):
         if accept:
             headers["Accept"] = accept
         return requests.post(resource, data=payload, headers=headers)
+
+    def _put(self, resource, payload=None, contentType=None, accept=None):
+        headers = {"User-Agent": self.user_agent}
+        if contentType:
+            headers["Content-Type"] = contentType
+        if accept:
+            headers["Accept"] = accept
+        return requests.put(resource, data=payload, headers=headers)

@@ -62,3 +62,16 @@ def test_size_sparql_and_export(key):
     size_export = len(graph)
 
     assert_equals(size_sparql, size_export)
+
+
+@with_setup_args(setup_func)
+def test_clean_before_insert(key):
+    dataset = "test"
+    data = redlink.create_data_client(key)
+    assert_true(data.status["accessible"])
+    assert_true(dataset in data.status["datasets"])
+
+    assert_true(data.import_dataset(
+        "<http://example.org/foo> <http://example.org/label> 'foo' .", Format.NT.mimetype, dataset, True))
+    graph = data.export_dataset(dataset)
+    assert_equals(1, len(graph))
