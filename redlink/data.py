@@ -16,7 +16,6 @@ import logging
 from rdflib.graph import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, POSTDIRECTLY
 import json
-from io import IOBase
 
 from . import __agent__
 from .client import RedlinkClient
