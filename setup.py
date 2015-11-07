@@ -18,6 +18,7 @@ try:
     import six
     py3 = six.PY3
 except:
+    import sys
     py3 = sys.version_info[0] >= 3
 
 # metadata
