@@ -24,6 +24,9 @@ except ImportError:
 
 
 class RedlinkClient(object):
+    """
+    Redlink generic client, internally handling all details of the communication with the Redlink API.
+    """
 
     endpoint = "https://api.redlink.io"
     datahub = "http://data.redlink.io"
@@ -32,6 +35,10 @@ class RedlinkClient(object):
     param_out = "out"
 
     def __init__(self, key):
+        """
+        @param key: api key
+        @return:
+        """
         self.key = key
         self.version = self._get_api_version()
         self.user_agent = __agent__
@@ -57,6 +64,12 @@ class RedlinkClient(object):
         return "%s.%s" % (versions[0], versions[1])
 
     def get_status(self):
+        """
+        Get api status of the current key
+
+        @rtype dict
+        @return: status
+        """
         response = self._get(self._build_url(), accept="application/json")
         if response.status_code != 200:
             return None
