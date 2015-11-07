@@ -12,7 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 class FormatDef:
+    """
+    Format (internal) definition
+    """
 
     def __init__(self, name, mimetype, rdflibMapping=None):
         self.name = name
@@ -50,6 +54,9 @@ class FormatDef:
 
 
 class Format:
+    """
+    Redlink formats
+    """
 
     TEXT = FormatDef("text", "text/plain")
     PDF = FormatDef("pdf", "application/pdf")
@@ -70,6 +77,13 @@ class Format:
 
 
 def from_mimetype(mimetype):
+    """
+    Returns a C{FormatDef} representing the passed mimetype
+
+    @type mimetype: str
+    @param mimetype: format mimetype
+    @return: format
+    """
     for name, format in Format.__dict__.items():
         if isinstance(format, FormatDef):
             if format == mimetype:
