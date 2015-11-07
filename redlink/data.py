@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import logging
-from rdflib import Graph
+from rdflib.graph import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, POST, POSTDIRECTLY
 import json
 
