@@ -31,8 +31,8 @@ class RedlinkAnalysis(RedlinkClient):
 
     def __init__(self, key):
         """
-        @type key: str
-        @param key: api key
+        :type key: str
+        :param key: api key
         """
         super(RedlinkAnalysis, self).__init__(key)
 
@@ -40,16 +40,16 @@ class RedlinkAnalysis(RedlinkClient):
         """
         Enhance the content
 
-        @type content: str
-        @param content: target content
+        :type content: str
+        :param content: target content
 
-        @type input: C{FormatDef}
-        @param input: input type
+        :type input: C{FormatDef}
+        :param input: input type
 
-        @type output: C{FormatDef}
-        @param output: output type
+        :type output: C{FormatDef}
+        :param output: output type
 
-        @return: enhancements
+        :return: enhancements
         """
         analysis = self.status["analyses"][0]
         params = {
