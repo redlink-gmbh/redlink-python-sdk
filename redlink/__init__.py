@@ -16,8 +16,8 @@
 Redlink Python SDK: C{https://github.com/redlink-gmbh/redlink-python-sdk}
 """
 
-__version__ = "1.0.0.dev0"
-__authors__ = "Sergio Fernández"
+__version__ = "1.0.0"
+__authors__ = "Sergio Fernandez"
 __license__ = "Apache License, Version 2.0"
 __url__ = "https://github.com/redlink-gmbh/redlink-python-sdk"
 __contact__ = "support@redlink.io"
