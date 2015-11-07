@@ -14,8 +14,23 @@
 
 from setuptools import setup
 
-import redlink
-version = redlink.__version__
+try:
+    import six
+    py3 = six.PY3
+except:
+    py3 = sys.version_info[0] >= 3
+
+# metadata
+if py3:
+    import re
+    _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
+    for line in open('redlink/__init__.py', encoding='utf-8'):
+        version_match = _version_re.match(line)
+        if version_match:
+            version = version_match.group(1)
+else:
+    import redlink
+    version = redlink.__version__
 
 from pip.req import parse_requirements
 from pip.download import PipSession
