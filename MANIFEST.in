@@ -1,0 +1,3 @@
+include *.md
+include tests/*.py
+include requirements.txt
