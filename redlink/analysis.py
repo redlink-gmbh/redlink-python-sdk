@@ -33,7 +33,6 @@ class RedlinkAnalysis(RedlinkClient):
         """
         @type key: str
         @param key: api key
-        @return:
         """
         super(RedlinkAnalysis, self).__init__(key)
 
@@ -42,7 +41,7 @@ class RedlinkAnalysis(RedlinkClient):
         Enhance the content
 
         @type content: str
-        @param target content: content
+        @param content: target content
 
         @type input: C{FormatDef}
         @param input: input type

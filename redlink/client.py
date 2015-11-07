@@ -67,7 +67,7 @@ class RedlinkClient(object):
         """
         Get api status of the current key
 
-        @rtype dict
+        @rtype: dict
         @return: status
         """
         response = self._get(self._build_url(), accept="application/json")

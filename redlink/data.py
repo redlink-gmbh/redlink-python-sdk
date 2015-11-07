@@ -62,7 +62,7 @@ class RedlinkData(RedlinkClient):
         @param dataset: dataset name
         @param clean_before: clean data in dataset before importing (default=False)
 
-        @type: C{bool}
+        @rtype: C{bool}
         @return: success or not
         """
         resource = self._build_url("/%s/%s" % (self.path, dataset))
@@ -103,7 +103,7 @@ class RedlinkData(RedlinkClient):
 
         @param dataset: dataset name
 
-        @type: C{bool}
+        @rtype: C{bool}
         @return: success or not
         """
         resource = self._build_url("/%s/%s" % (self.path, dataset))
@@ -120,7 +120,7 @@ class RedlinkData(RedlinkClient):
         @param dataset: dataset name
         @param clean_before: clean data in dataset before importing (default=False)
 
-        @type: C{bool}
+        @rtype: C{bool}
         @return: success or not
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
@@ -163,7 +163,7 @@ class RedlinkData(RedlinkClient):
         @param uri: resource uri
         @param dataset: dataset name
 
-        @type: C{bool}
+        @rtype: C{bool}
         @return: success or not
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
