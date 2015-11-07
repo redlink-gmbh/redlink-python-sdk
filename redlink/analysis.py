@@ -25,7 +25,7 @@ class RedlinkAnalysis(RedlinkClient):
     """
     Redlink Analysis Client
     """
-    
+
     path = "analysis"
     enhance_path = "enhance"
 
