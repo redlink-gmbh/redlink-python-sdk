@@ -15,7 +15,7 @@
 import logging
 import json
 from xml.dom import minidom
-from rdflib.graph import Graph
+from rdflib import Graph
 
 from .client import RedlinkClient
 from .format import from_mimetype, Format
