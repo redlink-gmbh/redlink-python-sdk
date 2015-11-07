@@ -80,9 +80,9 @@ def from_mimetype(mimetype):
     """
     Returns a C{FormatDef} representing the passed mimetype
 
-    :type mimetype: str
-    :param mimetype: format mimetype
-    :return: format
+    @type mimetype: str
+    @param mimetype: format mimetype
+    @return: format
     """
     for name, format in Format.__dict__.items():
         if isinstance(format, FormatDef):

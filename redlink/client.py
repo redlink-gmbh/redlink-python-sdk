@@ -36,8 +36,8 @@ class RedlinkClient(object):
 
     def __init__(self, key):
         """
-        :param key: api key
-        :return:
+        @param key: api key
+        @return:
         """
         self.key = key
         self.version = self._get_api_version()
@@ -67,8 +67,8 @@ class RedlinkClient(object):
         """
         Get api status of the current key
 
-        :rtype: dict
-        :return: status
+        @rtype: dict
+        @return: status
         """
         response = self._get(self._build_url(), accept="application/json")
         if response.status_code != 200:

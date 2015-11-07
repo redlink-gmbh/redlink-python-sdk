@@ -38,8 +38,8 @@ class RedlinkData(RedlinkClient):
 
     def __init__(self, key):
         """
-        :type key: str
-        :param key: api key
+        @type key: str
+        @param key: api key
         """
         super(RedlinkData, self).__init__(key)
 
@@ -47,7 +47,7 @@ class RedlinkData(RedlinkClient):
         """
         Release the data in the dataset to be used for analysis
 
-        :param dataset: dataset name
+        @param dataset: dataset name
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.release_path))
         response = self._post(resource, accept="application/json")
@@ -57,13 +57,13 @@ class RedlinkData(RedlinkClient):
         """
         Import RDF data into the dataset
 
-        :param data: data to import, either as ``str``, {rdflib.Graph} or C{file}
-        :param mimetype: mimetype of the data
-        :param dataset: dataset name
-        :param clean_before: clean data in dataset before importing (default=False)
+        @param data: data to import, either as C{str}, {rdflib.Graph} or C{file}
+        @param mimetype: mimetype of the data
+        @param dataset: dataset name
+        @param clean_before: clean data in dataset before importing (default=False)
 
-        :rtype: ``bool``
-        :return: success or not
+        @rtype: C{bool}
+        @return: success or not
         """
         resource = self._build_url("/%s/%s" % (self.path, dataset))
 
@@ -80,10 +80,10 @@ class RedlinkData(RedlinkClient):
         """
         Export the RDF data from a dataset
 
-        :param dataset: dataset name
+        @param dataset: dataset name
 
-        :rtype: C{rdflib.Graph}
-        :return: data
+        @rtype: C{rdflib.Graph}
+        @return: data
         """
         resource = self._build_url("/%s/%s" % (self.path, dataset))
         rdf_format = Format.TURTLE
@@ -101,10 +101,10 @@ class RedlinkData(RedlinkClient):
         """
         Clean a data in a dataset
 
-        :param dataset: dataset name
+        @param dataset: dataset name
 
-        :rtype: ``bool``
-        :return: success or not
+        @rtype: C{bool}
+        @return: success or not
         """
         resource = self._build_url("/%s/%s" % (self.path, dataset))
         response = self._delete(resource)
@@ -114,14 +114,14 @@ class RedlinkData(RedlinkClient):
         """
         Import data for a resource
 
-        :param data: data to import, either as ``str``, {rdflib.Graph} or C{file}
-        :param mimetype: mimetype of the data
-        :param uri: reource uri
-        :param dataset: dataset name
-        :param clean_before: clean data in dataset before importing (default=False)
+        @param data: data to import, either as C{str}, {rdflib.Graph} or C{file}
+        @param mimetype: mimetype of the data
+        @param uri: reource uri
+        @param dataset: dataset name
+        @param clean_before: clean data in dataset before importing (default=False)
 
-        :rtype: ``bool``
-        :return: success or not
+        @rtype: C{bool}
+        @return: success or not
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
 
@@ -138,11 +138,11 @@ class RedlinkData(RedlinkClient):
         """
         Export the RDF data from a resource
 
-        :param uri: resource uri
-        :param dataset: dataset name
+        @param uri: resource uri
+        @param dataset: dataset name
 
-        :rtype: C{rdflib.Graph}
-        :return: data
+        @rtype: C{rdflib.Graph}
+        @return: data
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
         rdf_format = Format.TURTLE
@@ -160,11 +160,11 @@ class RedlinkData(RedlinkClient):
         """
         Delete a resource
 
-        :param uri: resource uri
-        :param dataset: dataset name
+        @param uri: resource uri
+        @param dataset: dataset name
 
-        :rtype: ``bool``
-        :return: success or not
+        @rtype: C{bool}
+        @return: success or not
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
         response = self._delete(resource)
@@ -174,10 +174,10 @@ class RedlinkData(RedlinkClient):
         """
         Execute a tuple query (SELECT or ASK)
 
-        :param query: query
-        :param dataset: dataset name
-        :rtype: ``dict``
-        :return: query results
+        @param query: query
+        @param dataset: dataset name
+        @rtype: C{dict}
+        @return: query results
         """
         return self._sparql_query(dataset, query, Format.JSON.name)
 
@@ -185,10 +185,10 @@ class RedlinkData(RedlinkClient):
         """
         Execute a graph query (CONSTRUCT or DESCRIBE)
 
-        :param query: query
-        :param dataset: dataset name
-        :rtype: C{rdflib.Graph}
-        :return: query results
+        @param query: query
+        @param dataset: dataset name
+        @rtype: C{rdflib.Graph}
+        @return: query results
         """
         return self._sparql_query(dataset, query, Format.TURTLE.name)
 
@@ -196,9 +196,9 @@ class RedlinkData(RedlinkClient):
         """
         Execute an update query
 
-        :param query: query
-        :param dataset: dataset name
-        :return: query results
+        @param query: query
+        @param dataset: dataset name
+        @return: query results
         """
         return self._sparql_query(dataset, query, Format.JSON.name)
 
@@ -241,11 +241,11 @@ class RedlinkData(RedlinkClient):
         """
         Ezecute a LDPath program
 
-        :param uri: context resource uri
-        :param program: ldpath program
-        :param dataset: dataset name
-        :rtype: ``dict``
-        :return: results
+        @param uri: context resource uri
+        @param program: ldpath program
+        @param dataset: dataset name
+        @rtype: C{dict}
+        @return: results
         """
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.ldpath_path), {self.param_uri: uri})
         response = self._post(resource, program, accept=Format.JSON.mimetype)

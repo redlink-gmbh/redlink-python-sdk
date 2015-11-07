@@ -32,11 +32,11 @@ def create_analysis_client(key):
     """
     Create an instance of a Redlink Analysis Client
 
-    :type  key: str
-    :param key: api key
+    @type  key: str
+    @param key: api key
 
-    :rtype: C{RedlinkAnalysis}
-    :return: analysis client
+    @rtype: C{RedlinkAnalysis}
+    @return: analysis client
     """
     return RedlinkAnalysis(key)
 
@@ -45,10 +45,10 @@ def create_data_client(key):
     """
     Create an instance of a Redlink Dara Client
 
-    :type  key: str
-    :param key: api key
+    @type  key: str
+    @param key: api key
 
-    :rtype: C{RedlinkData}
-    :return: data client
+    @rtype: C{RedlinkData}
+    @return: data client
     """
     return RedlinkData(key)
