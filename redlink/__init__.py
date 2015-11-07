@@ -19,16 +19,36 @@ Redlink Python SDK: C{https://github.com/redlink-gmbh/redlink-python-sdk}
 __version__ = "1.0.0.dev0"
 __authors__ = "Sergio Fernández"
 __license__ = "Apache License, Version 2.0"
-__url__     = "https://github.com/redlink-gmbh/redlink-python-sdk"
+__url__ = "https://github.com/redlink-gmbh/redlink-python-sdk"
 __contact__ = "support@redlink.io"
-__date__    = "2015-10-28"
-__agent__   = "RedlinkPythonSDK/%s" % __version__
+__date__ = "2015-10-28"
+__agent__ = "RedlinkPythonSDK/%s" % __version__
 
 from .analysis import RedlinkAnalysis
 from .data import RedlinkData
 
+
 def create_analysis_client(key):
+    """
+    Create an instance of a Redlink Analysis Client
+
+    @type  key: str
+    @param key: api key
+
+    @rtype: C{RedlinkAnalysis}
+    @return: analysis client
+    """
     return RedlinkAnalysis(key)
 
+
 def create_data_client(key):
+    """
+    Create an instance of a Redlink Dara Client
+
+    @type  key: str
+    @param key: api key
+
+    @rtype: C{RedlinkData}
+    @return: data client
+    """
     return RedlinkData(key)
