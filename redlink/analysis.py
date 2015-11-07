@@ -20,15 +20,38 @@ from rdflib.graph import Graph
 from .client import RedlinkClient
 from .format import from_mimetype, Format
 
-class RedlinkAnalysis(RedlinkClient):
 
+class RedlinkAnalysis(RedlinkClient):
+    """
+    Redlink Analysis Client
+    """
+    
     path = "analysis"
     enhance_path = "enhance"
 
     def __init__(self, key):
+        """
+        @type key: str
+        @param key: api key
+        @return:
+        """
         super(RedlinkAnalysis, self).__init__(key)
 
     def enhance(self, content, input=Format.TEXT, output=Format.JSON):
+        """
+        Enhance the content
+
+        @type content: str
+        @param target content: content
+
+        @type input: C{FormatDef}
+        @param input: input type
+
+        @type output: C{FormatDef}
+        @param output: output type
+
+        @return: enhancements
+        """
         analysis = self.status["analyses"][0]
         params = {
             self.param_in: input.name,
@@ -43,16 +66,15 @@ class RedlinkAnalysis(RedlinkClient):
             logging.error("Enhance request returned %d: %s" % (response.status_code, response.reason))
             return response.text
         else:
-            contentType = from_mimetype(response.headers["Content-Type"])
-            if contentType == Format.JSON or contentType == Format.REDLINKJSON:
+            content_type = from_mimetype(response.headers["Content-Type"])
+            if content_type == Format.JSON or content_type == Format.REDLINKJSON:
                 return json.loads(response.text)
-            elif contentType == Format.XML or contentType == Format.REDLINKXML:
+            elif content_type == Format.XML or content_type == Format.REDLINKXML:
                 return minidom.parse(response.text)
-            elif contentType.rdflibMapping:
+            elif content_type.rdflibMapping:
                 g = Graph()
-                g.parse(data=response.text, format=contentType.rdflibMapping)
+                g.parse(data=response.text, format=content_type.rdflibMapping)
                 return g
             else:
-                logging.warn("Handler not found for %s, so returning raw text response..." % contentType.mimetype)
+                logging.warn("Handler not found for %s, so returning raw text response..." % content_type.mimetype)
                 return response.text
-
