@@ -9,6 +9,7 @@ The SDKs are provided for a limited set of languages; so if it does not covers y
 needs, please contact us for further information.
 
 [![Build Status](https://secure.travis-ci.org/redlink-gmbh/redlink-python-sdk.svg?branch=master)](https://travis-ci.org/redlink-gmbh/redlink-python-sdk)
+[![PyPi version](https://badge.fury.io/py/redlink.svg)](https://pypi.python.org/pypi/redlink)
 [![License](http://img.shields.io/:license-apache-blue.svg)][ASL2]
 
 Further details at [dev.redlink.io][dev].
