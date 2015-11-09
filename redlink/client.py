@@ -16,6 +16,7 @@
 from . import __version__, __agent__
 import requests
 import json
+import os
 
 try:
     from urllib import quote_plus
@@ -42,6 +43,7 @@ class RedlinkClient(object):
         self.key = key
         self.version = self._get_api_version()
         self.user_agent = __agent__
+        self.cert = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "redlink-CA.crt"))
 
         status = self.get_status()
         if not (status and status["accessible"]):
@@ -80,7 +82,7 @@ class RedlinkClient(object):
         headers = {"User-Agent": self.user_agent}
         if accept:
             headers["Accept"] = accept
-        return requests.get(resource, headers=headers)
+        return requests.get(resource, headers=headers, verify=self.cert)
 
     def _post(self, resource, payload=None, contentType=None, accept=None):
         headers = {"User-Agent": self.user_agent}
@@ -88,7 +90,7 @@ class RedlinkClient(object):
             headers["Content-Type"] = contentType
         if accept:
             headers["Accept"] = accept
-        return requests.post(resource, data=payload, headers=headers)
+        return requests.post(resource, data=payload, headers=headers, verify=self.cert)
 
     def _put(self, resource, payload=None, contentType=None, accept=None):
         headers = {"User-Agent": self.user_agent}
@@ -96,7 +98,7 @@ class RedlinkClient(object):
             headers["Content-Type"] = contentType
         if accept:
             headers["Accept"] = accept
-        return requests.put(resource, data=payload, headers=headers)
+        return requests.put(resource, data=payload, headers=headers, verify=self.cert)
 
     def _delete(self, resource):
-        return requests.delete(resource)
+        return requests.delete(resource, verify=self.cert)
