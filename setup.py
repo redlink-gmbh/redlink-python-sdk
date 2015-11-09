@@ -13,25 +13,11 @@
 # limitations under the License.
 
 from setuptools import setup
+import re
 
-try:
-    import six
-    py3 = six.PY3
-except:
-    import sys
-    py3 = sys.version_info[0] >= 3
-
-# metadata
-if py3:
-    import re
-    _version_re = re.compile(r'__version__\s*=\s*"(.*)"')
-    for line in open('redlink/__init__.py', encoding='utf-8'):
-        version_match = _version_re.match(line)
-        if version_match:
-            version = version_match.group(1)
-else:
-    import redlink
-    version = redlink.__version__
+version = ''
+with open('redlink/__init__.py', 'r') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 from pip.req import parse_requirements
 from pip.download import PipSession
