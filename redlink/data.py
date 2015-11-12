@@ -73,7 +73,7 @@ class RedlinkData(RedlinkClient):
 
         payload = self._get_payload_from_data(data, rdf_format)
         method = self._put if clean_before else self._post
-        response = method(resource, payload, contentType=rdf_format.mimetype)
+        response = method(resource, payload, mimetype=rdf_format.mimetype)
         return 200 <= response.status_code < 300
 
     def export_dataset(self, dataset):
@@ -88,13 +88,13 @@ class RedlinkData(RedlinkClient):
         resource = self._build_url("/%s/%s" % (self.path, dataset))
         rdf_format = Format.TURTLE
         response = self._get(resource, accept=rdf_format.mimetype)
-        contentType = from_mimetype(response.headers["Content-Type"])
-        if contentType.rdflibMapping:
+        content_type = from_mimetype(response.headers["Content-Type"])
+        if content_type.rdflibMapping:
             g = Graph()
-            g.parse(data=response.text, format=contentType.rdflibMapping)
+            g.parse(data=response.text, format=content_type.rdflibMapping)
             return g
         else:
-            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % contentType.mimetype)
+            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % content_type.mimetype)
             return response.text
 
     def clean_dataset(self, dataset):
@@ -131,7 +131,7 @@ class RedlinkData(RedlinkClient):
 
         payload = self._get_payload_from_data(data, rdf_format)
         method = self._put if clean_before else self._post
-        response = method(resource, payload, contentType=rdf_format.mimetype)
+        response = method(resource, payload, mimetype=rdf_format.mimetype)
         return 200 <= response.status_code < 300
 
     def export_resource(self, uri, dataset):
@@ -147,13 +147,13 @@ class RedlinkData(RedlinkClient):
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.resource_path), {self.param_uri: uri})
         rdf_format = Format.TURTLE
         response = self._get(resource, accept=rdf_format.mimetype)
-        contentType = from_mimetype(response.headers["Content-Type"])
-        if contentType.rdflibMapping:
+        content_type = from_mimetype(response.headers["Content-Type"])
+        if content_type.rdflibMapping:
             g = Graph()
-            g.parse(data=response.text, format=contentType.rdflibMapping)
+            g.parse(data=response.text, format=content_type.rdflibMapping)
             return g
         else:
-            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % contentType.mimetype)
+            logging.warn("Handler not found for parsing %s as RDF, so returning raw response..." % content_type.mimetype)
             return response.text
 
     def delete_resource(self, uri, dataset):
@@ -250,8 +250,8 @@ class RedlinkData(RedlinkClient):
         resource = self._build_url("/%s/%s/%s" % (self.path, dataset, self.ldpath_path), {self.param_uri: uri})
         response = self._post(resource, program, accept=Format.JSON.mimetype)
         if 200 <= response.status_code < 300:
-            contentType = from_mimetype(response.headers["Content-Type"])
-            if Format.JSON == contentType:
+            content_type = from_mimetype(response.headers["Content-Type"])
+            if Format.JSON == content_type:
                 return json.loads(response.text)
             else:
                 logging.warn("Content type should be 'application/json' but was %s" % response.headers["Content-Type"])
