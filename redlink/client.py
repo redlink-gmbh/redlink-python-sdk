@@ -102,4 +102,5 @@ class RedlinkClient(object):
         return requests.put(resource, data=payload, headers=headers, verify=self.cert)
 
     def _delete(self, resource):
-        return requests.delete(resource, verify=self.cert)
+        headers = {"User-Agent": self.user_agent}
+        return requests.delete(resource, headers=headers, verify=self.cert)
