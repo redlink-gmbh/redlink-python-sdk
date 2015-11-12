@@ -34,6 +34,7 @@ class RedlinkClient(object):
     param_key = "key"
     param_in = "in"
     param_out = "out"
+    path_crt = "redlink-CA.crt"
 
     def __init__(self, key):
         """
@@ -43,7 +44,7 @@ class RedlinkClient(object):
         self.key = key
         self.version = self._get_api_version()
         self.user_agent = __agent__
-        self.cert = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "redlink-CA.crt"))
+        self.cert = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), self.path_crt))
 
         status = self.get_status()
         if not (status and status["accessible"]):
@@ -84,18 +85,18 @@ class RedlinkClient(object):
             headers["Accept"] = accept
         return requests.get(resource, headers=headers, verify=self.cert)
 
-    def _post(self, resource, payload=None, contentType=None, accept=None):
+    def _post(self, resource, payload=None, mimetype=None, accept=None):
         headers = {"User-Agent": self.user_agent}
-        if contentType:
-            headers["Content-Type"] = contentType
+        if mimetype:
+            headers["Content-Type"] = mimetype
         if accept:
             headers["Accept"] = accept
         return requests.post(resource, data=payload, headers=headers, verify=self.cert)
 
-    def _put(self, resource, payload=None, contentType=None, accept=None):
+    def _put(self, resource, payload=None, mimetype=None, accept=None):
         headers = {"User-Agent": self.user_agent}
-        if contentType:
-            headers["Content-Type"] = contentType
+        if mimetype:
+            headers["Content-Type"] = mimetype
         if accept:
             headers["Accept"] = accept
         return requests.put(resource, data=payload, headers=headers, verify=self.cert)
