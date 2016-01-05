@@ -19,9 +19,9 @@ import SPARQLWrapper
 
 
 def print_debug_info():
-    logging.debug("requests=" % requests.__version__)
-    logging.debug("rdflib=" % rdflib.__version__)
-    logging.debug("SPARQLWrapper=" % SPARQLWrapper.__version__)
+    logging.debug("requests=%s" % requests.__version__)
+    logging.debug("rdflib=%s" % rdflib.__version__)
+    logging.debug("SPARQLWrapper=%s" % SPARQLWrapper.__version__)
 
 print_debug_info()
 
