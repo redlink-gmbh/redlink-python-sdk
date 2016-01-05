@@ -12,16 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import logging
+
 import requests
 import rdflib
 import SPARQLWrapper
 
 
-def print_debug_info():
-    logging.debug("requests=%s" % requests.__version__)
-    logging.debug("rdflib=%s" % rdflib.__version__)
-    logging.debug("SPARQLWrapper=%s" % SPARQLWrapper.__version__)
-
-print_debug_info()
+print("requests=%s" % requests.__version__)
+print("rdflib=%s" % rdflib.__version__)
+print("SPARQLWrapper=%s" % SPARQLWrapper.__version__)
 
