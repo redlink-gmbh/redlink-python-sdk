@@ -11,14 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
-import requests
-import rdflib
-import SPARQLWrapper
-
-
-print("requests=%s" % requests.__version__)
-print("rdflib=%s" % rdflib.__version__)
-print("SPARQLWrapper=%s" % SPARQLWrapper.__version__)
-
