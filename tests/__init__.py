@@ -11,3 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import logging
+import requests
+import rdflib
+import SPARQLWrapper
+
+
+def print_debug_info():
+    logging.debug("requests=" % requests.__version__)
+    logging.debug("rdflib=" % rdflib.__version__)
+    logging.debug("SPARQLWrapper=" % SPARQLWrapper.__version__)
+
+print_debug_info()
+

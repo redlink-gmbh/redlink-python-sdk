@@ -77,3 +77,4 @@ def with_setup_args(setup, teardown=None):
 
 def random_string(size=8, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
