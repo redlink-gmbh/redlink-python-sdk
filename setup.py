@@ -22,7 +22,10 @@ with open('redlink/__init__.py', 'r') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 requirements = list(parse_requirements('requirements.txt', session=PipSession()))
-requires = [str(r.req.name) for r in requirements]
+try:
+    requires = [str(r.req.project_name) for r in requirements]
+except AttributeError:
+    requires = [str(r.req.name) for r in requirements]
 install_requires = [str(r.req) for r in requirements]
 
 setup(
