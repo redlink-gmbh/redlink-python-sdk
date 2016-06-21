@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 from setuptools import setup
 from pip.req import parse_requirements
 from pip.download import PipSession
@@ -42,6 +43,7 @@ setup(
       packages = ['redlink'],
       requires = requires,
       install_requires = install_requires,
+      data_files = [ ("redlink",  [os.path.join("redlink", "redlink-CA.crt")]) ],
       classifiers =  [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
