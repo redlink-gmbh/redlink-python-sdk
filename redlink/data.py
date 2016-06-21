@@ -170,7 +170,7 @@ class RedlinkData(RedlinkClient):
         response = self._delete(resource)
         return 200 <= response.status_code < 300
 
-    def sparql_tuple_query(self, query, dataset):
+    def sparql_tuple_query(self, query, dataset=None):
         """
         Execute a tuple query (SELECT or ASK)
 
@@ -203,8 +203,12 @@ class RedlinkData(RedlinkClient):
         return self._sparql_query(dataset, query, Format.JSON.name)
 
     def _sparql_query(self, dataset, query, format=JSON):
-        sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
-                                                        dataset, self.sparql_path, self.sparql_select_path)
+        if dataset is None:
+            sparql_endpoint_select = "%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
+                                                         self.sparql_path, self.sparql_select_path)
+        else:
+            sparql_endpoint_select = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
+                                                            dataset, self.sparql_path, self.sparql_select_path)
         sparql_endpoint_update = "%s/%s/%s/%s/%s/%s" % (self.endpoint, self.version, self.path,
                                                         dataset, self.sparql_path, self.sparql_update_path)
         sparql = SPARQLWrapper(sparql_endpoint_select, sparql_endpoint_update)
