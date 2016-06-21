@@ -45,7 +45,7 @@ setup(
       install_requires = install_requires,
       include_package_data = True,
       package_data = {
-        "redlink": [os.path.join("redlink", "redlink-CA.crt")])
+        "redlink": [os.path.join("redlink", "redlink-CA.crt")]
       },
       classifiers =  [
         'Development Status :: 4 - Beta',
